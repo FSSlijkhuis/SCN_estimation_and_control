@@ -1,0 +1,3 @@
+# ignore temp stuff
+.vscode/
+__pycache__/

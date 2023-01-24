@@ -72,7 +72,9 @@ def X_init(x0,Nt):
 Initialization of Kalman Filter SCN.
 Given the SCN and FE parameters, returns SCN states with connections.
 """
-def KfSCN_init(K,Nt,A,B,C,Kf,N=100,lam=0.1,bounding_box_factor=10,zero_init=True):
+def KfSCN_init(K,Nt,A,B,C,Kf,N=100,lam=0.1,bounding_box_factor=10,zero_init=True,seed=0):
+
+    np.random.seed(seed)
 
     D=np.random.randn(K,N) # N x K - Weights associated to each neuron
     D=D/np.linalg.norm(D,axis=0) #normalize
