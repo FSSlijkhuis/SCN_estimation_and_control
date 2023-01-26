@@ -1,12 +1,18 @@
 import numpy as np
 import control
 
-"""
-Initialization of Forward Euler.
-Given simulation time (seconds) and timestep size (dt), returns list of times (for looping purposes) and the number of total timesteps (Nt).
-"""
 def FE_init(time,dt):
+    """Initialization of Forward Euler.
+    Given simulation time (seconds) and timestep size (dt), returns list of times (for looping purposes) and the number of total timesteps (Nt).
 
+    Args:
+        time (integer): the number of seconds to run the FE simulation for, in seconds.
+        dt (float): the length of a single timestep, in seconds.
+
+    Returns:
+        ndarray: array of times to loop over, or for plotting purposes.
+        int: the total number of timesteps in the simulation.
+    """    
     #Forward Euler parameters
     times = np.arange(0, time, dt)
     Nt=len(times)
