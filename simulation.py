@@ -26,29 +26,34 @@ def run_KfSCN_step(y,u,r,s,v,D,T,lam,O_f,O_s,F_i,O_k,F_k,C,t,dt,sigma):
 """
 Function for running a single step of the SCN controller.
 """
-def run_SCNcontrol_step(y,x_des,Dx,r,s,v,D,T,lam,Kc,O_f,O_s,O_c,F_c,O_k,F_k,B,C,t,dt,sigma):
-    
+def run_SCNcontrol_step(y,x_des,Dx,r,s,v,D,T,lam,Kc,O_f,O_s,O_c,F_c,O_k,F_k,B,C,t,dt,sigma,silencing=None):
+    if silencing is None:
+        silencing = np.zeros(v.shape)
+
     #We require an index for the weights, as the connections are only relevant for the first B weights (the rest are for encoding the target state)
     i=len(B)
     
     u_next = -Kc @ (D[:-i] @ r - D[i:] @ r)
 
     # Calculating the voltages at time t+1
-    dvdt = -lam * v - O_f @ s + O_s @ r + (O_c @ r + F_c @ D[i:] @ r) - (O_k @ r + F_k @ C @ y)
-    dvdt = dvdt + (D[i:].T @ ((lam*x_des)+Dx)) - (D[i:].T @ D[i:] @ s)
-    v_next = v + dvdt*dt + np.sqrt(dt)*sigma*np.random.randn(len(dvdt))
+    dv = dt*(-lam * v + O_s @ r + (O_c @ r + F_c @ D[i:] @ r) - (O_k @ r + F_k @ C @ y))
+    dv = dv + dt*(D[i:].T @ ((lam*x_des)+Dx)) - (D[i:].T @ D[i:] @ s)  - O_f @ s
+    v_next = v + dv + np.sqrt(dt)*sigma*np.random.randn(len(dv)) 
+
+    # silence any neurons
+    v_next[silencing == 1] = 0
 
     # check if there are neurons whose voltage is above threshold
     above = np.where(v_next > T)[0]
 
-    # introduce a control to let only one neuron fire at the time
+    # introduce a control to let only one neuron fire at the time to simulate zero delays
     s_next=np.zeros(s.shape)
     if len(above):
-        s_next[np.argmax(v_next)] = 1/dt
+        s_next[np.argmax(v_next)] = 1
 
     # update rate
-    drdt = s_next - lam*r
-    r_next = r + drdt*dt
+    dr = - lam*r*dt + s_next
+    r_next = r + dr
     
     return r_next, s_next, v_next, u_next
 
