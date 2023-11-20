@@ -25,3 +25,6 @@ controller. We demonstrate robust spiking control of simulated spring-mass-dampe
 ### Author: André Rodrigues Urbano
 
 ![SCN Carpole control Demo](demo/SCN-Cartpole-Demo.gif)
+
+## Funding
+![image](https://github.com/FSSlijkhuis/SCN_estimation_and_control/assets/63585846/8c316539-04fc-48ec-b3f2-0a18fe63f172)
