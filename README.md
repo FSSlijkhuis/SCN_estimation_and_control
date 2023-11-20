@@ -14,11 +14,14 @@ controller. We demonstrate robust spiking control of simulated spring-mass-dampe
 
 ### Results
 #### Spring-mass-Dumper System (SMD)
+(A) SMD, (B) Estimation of the SMD and (C) Control of the SMD and study of robustness against neural silencing.
 ![image](https://github.com/FSSlijkhuis/SCN_estimation_and_control/assets/63585846/a0d1f4fe-f9c3-4049-81c8-bff32706f9ae)
 
 #### Cartpole
+(A) Cartpole model, (B) Estimation and Control with a step function as reference (Spiking LQG)
 ![image](https://github.com/FSSlijkhuis/SCN_estimation_and_control/assets/63585846/c411a46d-3f4e-44dc-9def-8b356bb32806)
 
 #### Animation
-Author: André Rodrigues Urbano
+### Author: André Rodrigues Urbano
+
 ![SCN Carpole control Demo](demo/SCN-Cartpole-Demo.gif)
